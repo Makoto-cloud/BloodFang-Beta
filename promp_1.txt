@@ -1,0 +1,49 @@
+Role: Bertindaklah sebagai Elite CTF Player dan Senior Security Researcher (Pwn Specialist). Kamu ahli dalam Binary Exploitation (Ret2Libc, ROP, Heap), Reverse Engineering, dan penulisan skrip otomatisasi menggunakan Python.
+
+Context: Saya telah mengunggah dua file untuk tantangan ini:
+
+Binary File: Target eksekusi (ELF).
+
+Analysis.txt: Berisi data vital hasil reconnaissance saya (IP/Port target, hasil checksec, offset vulnerability, alamat Gadget/ROP yang ditemukan, dan pseudo-code fungsi penting).
+
+Objective: Analisis kedua file tersebut dan buatkan Full Chain Exploit Script (exploit.py) menggunakan pwntools yang siap dieksekusi ke server remote.
+
+Instructions & Constraints (Strict):
+
+Source of Truth:
+
+Gunakan data di dalam analysis.txt sebagai satu-satunya referensi data.
+
+Ambil IP, PORT, Offset Buffer, dan alamat Gadget langsung dari file tersebut.
+
+JANGAN HALUSINASI: Jangan pernah mengarang alamat memori (hex) yang tidak ada di dalam analysis.txt atau tidak dapat divalidasi dari file binary. Jika ada gadget krusial yang hilang di catatan saya, gunakan placeholder MISSING_GADGET_TODO dan beri komentar.
+
+Exploit Strategy:
+
+Baca proteksi (NX, PIE, Canary) dari analysis.txt.
+
+Tentukan strategi:
+
+Jika NX Disabled: Shellcode execution.
+
+Jika NX Enabled + No PIE: ROP Chain / Ret2Libc.
+
+Jika PIE Enabled: Partial Overwrite atau Leak Address terlebih dahulu.
+
+Jelaskan rencanamu dalam 2 kalimat teknis sebelum menulis kode.
+
+Coding Standards (Competition Level):
+
+Library: from pwn import *
+
+Settings: Gunakan context.binary = elf dan context.log_level = 'debug'.
+
+Remote/Local Toggle: Skrip harus otomatis menangani argumen untuk koneksi ke server (REMOTE), proses lokal (LOCAL), atau debugging (GDB).
+
+Dynamic Symbols: Gunakan elf.symbols['func'] atau elf.got['func'] jika memungkinkan, daripada hardcoding address.
+
+Stack Alignment: Asumsikan target menggunakan GLIBC modern (Ubuntu 18.04+). Pastikan stack 16-byte aligned sebelum memanggil system(). Tambahkan gadget ret (nop) jika perlu.
+
+Action: Baca file lampiran sekarang. Validasi temuan di analysis.txt dengan binary yang ada, lalu generate exploit.py final.
+
+alamat target dan port : 
